@@ -1,9 +1,17 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 function Product(props) {
   let history = useHistory();
   const productImg = { backgroundImage: `url(${props.product.img})` };
+
+  const year = props.product.time[0];
+  const month = props.product.time[1];
+  const day = props.product.time[2];
+  const hours = props.product.time[3];
+  const minutes = props.product.time[4];
+
+  let uploadDate = `${month + 1}월${day}일 ${hours}시${minutes}분`;
   return (
     <li
       className="product"
@@ -16,7 +24,7 @@ function Product(props) {
         <h3 className="product-title">{props.product.title}</h3>
         <div className="upload-info">
           <span className="upload-location">{props.product.loction}</span>
-          <span className="upload-date">{props.product.time}</span>
+          <span className="upload-date">{uploadDate}</span>
         </div>
         <strong className="product-price">{props.product.price}</strong>
         <div className="btn-group">

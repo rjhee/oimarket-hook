@@ -6,6 +6,12 @@ function ProductDetail(props) {
   let { id } = useParams();
 
   const product = props.products.find((product) => product.id === id);
+  const year = product.time[0];
+  const month = product.time[1];
+  const day = product.time[2];
+  const hours = product.time[3];
+  const minutes = product.time[4];
+  let uploadDate = `${month + 1}월${day}일 ${hours}시${minutes}분`;
   const productImg = { backgroundImage: `url(${product.img})` };
 
   return (
@@ -16,7 +22,15 @@ function ProductDetail(props) {
       <div className="product-detail-contents">
         <h1 className="title">{product.title}</h1>
         <div className="detail-btn-cover">
-          <button className="edit">수정</button>
+          <button
+            className="edit"
+            onClick={() => {
+              history.push('/edit/' + product.id);
+              props.getProductDetail();
+            }}
+          >
+            수정
+          </button>
 
           <button className="delete">삭제</button>
         </div>
@@ -27,7 +41,7 @@ function ProductDetail(props) {
               <i className="icon-user"></i>
             </div>
             <div className="user-profile-cover">
-              <span className="user-name">{product.name}</span>
+              <span className="user-name">{product.user}</span>
               <span className="user-location">{product.location}</span>
             </div>
           </div>
@@ -35,7 +49,7 @@ function ProductDetail(props) {
 
         <p className="product-detail-desc">{product.desc}</p>
         <div className="product-detail-count">
-          <span className="date">{product.time}</span>
+          <span className="date">{uploadDate}</span>
           <div>
             <span className="like">찜 3</span>
             <span className="comment">채팅 3</span>
@@ -46,7 +60,15 @@ function ProductDetail(props) {
           <button className="like-btn">
             <i className="icon-heart"></i>
           </button>
-          <button className="chat-btn">채팅하기</button>
+          <button
+            className="chat-btn"
+            onClick={() => {
+              history.push('/chat');
+              props.createChat();
+            }}
+          >
+            채팅하기
+          </button>
         </div>
       </div>
     </section>

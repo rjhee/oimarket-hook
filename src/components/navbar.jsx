@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Navbar() {
   return (
     <nav>
-      <Link to="/product">
+      <Link to="/">
         <h1 className="nav-logo">
           <i className="icon-cucumber"></i>
           <strong>오이마켓</strong>

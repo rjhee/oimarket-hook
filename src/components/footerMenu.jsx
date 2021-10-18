@@ -6,12 +6,12 @@ function FooterMenu() {
     <footer>
       <ul className="footer-menu">
         <li>
-          <Link to="/productList">
+          <Link to="/">
             <i className="icon-home"></i>
           </Link>
         </li>
         <li>
-          <Link>
+          <Link to="/">
             <i className="icon-navigation"></i>
           </Link>
         </li>
@@ -21,12 +21,12 @@ function FooterMenu() {
           </Link>
         </li>
         <li>
-          <Link>
+          <Link to="/chat">
             <i className="icon-chat2"></i>
           </Link>
         </li>
         <li>
-          <Link to="/userProfile">
+          <Link as={Link} to="/userProfile">
             <i className="icon-user"></i>
           </Link>
         </li>

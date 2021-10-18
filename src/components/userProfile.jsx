@@ -1,12 +1,23 @@
 import React from 'react';
+import { useHistory, Link } from 'react-router-dom';
 
-function UserProfile() {
+function UserProfile(props) {
+  let history = useHistory();
+  let name = props.user.name;
+  let email = props.user.email;
+  let isUser = props.isUser;
+
+  const NO_NAME = <Link to="/login">로그인하기</Link>;
+  const NO_EMAIL = '로그인이 필요합니다';
+  const ISUSER_TEXT = isUser === true ? '로그아웃' : '로그인';
+  const ISUSER_PATH = isUser === true ? '/logout' : '/login';
   return (
     <div className="user">
       <section className="user-profile">
         <div className="user-profile-info">
           <label className="user-photo-cover" htmlFor="user-photo">
-            <i className="fas fa-user photo"></i>
+            <div className="user-photo"></div>
+            <i className="icon-user photo"></i>
             <i className="fas fa-camera camera"></i>
           </label>
           <input
@@ -16,9 +27,9 @@ function UserProfile() {
             className="hidden"
           />
           <div className="user-profile-cover">
-            <h1 className="name">노재희</h1>
-            <span className="location">쌍령동</span>
-            <span className="email">godorgo</span>
+            <h1 className="name">{isUser === true ? name : NO_NAME}</h1>
+            <span className="location"></span>
+            <span className="email">{isUser === true ? email : NO_EMAIL}</span>
           </div>
         </div>
         <div className="user-profile-item">
@@ -32,6 +43,21 @@ function UserProfile() {
             <i className="icon-setting"></i>
           </button>
         </div>
+        <section className="user-profile-btn">
+          {isUser === false ? (
+            <Link to="/join">
+              <button className="user-profile-join">회원가입</button>
+            </Link>
+          ) : null}
+          <Link to={ISUSER_PATH}>
+            <button
+              className="user-profile-login"
+              onClick={isUser && props.onClickLogout}
+            >
+              {ISUSER_TEXT}
+            </button>
+          </Link>
+        </section>
         <div className="line"></div>
         <div className="user-profile-service">
           <button className="notice">
@@ -53,13 +79,6 @@ function UserProfile() {
         </div>
       </section>
       <div className="line"></div>
-      <section className="user-profile-btn">
-        <button className="user-profile-login">로그인</button>
-
-        <button className="user-profile-sign-up">회원가입</button>
-
-        <button className="user-profile-logout">로그아웃</button>
-      </section>
     </div>
   );
 }

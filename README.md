@@ -1,71 +1,58 @@
-# Getting Started with Create React App
+<img src="https://user-images.githubusercontent.com/87287296/138562365-0457ee3f-2c2c-4809-a087-93cd124ebf92.gif" alt="">
+<h1 class="desc-title">오이마켓(중고거래 플랫폼)</h1>
+<a
+  href="https://rjhee.github.io/oimarket-hook/"
+  target="_blank"
+  class="link"
+  >👉🏼 완성작 보러가기</a
+>
+<dl class="desc-cover">
+  <dt>
+    <h3>컨셉</h3>
+  </dt>
+  <dd>
+    오 이런것도 팔아? 라는 의미의 중고거래로 주변에서 의외의
+    득템을 할 수 있다는 컨셉의 중고거래 플랫폼
+  </dd>
+  <dt>
+    
+    <h3>기능</h3>
+  </dt>
+  <dd>- firebase로 회원가입 / 로그인 / 로그아웃</dd>
+  <dd>- firebase에 있는 상품데이터 가져오기</dd>
+  <dd>- firebase 서버로 상품 업로드</dd>
+  <dd>- 업로드 상품 수정 / 삭제</dd>
+  <dd>- 유저들간에 채팅기능</dd>
+  <dd>- 반응형 레이아웃</dd>
+  <dt>
+    <h3>앞으로 추가할 기능</h3>
+  </dt>
+  <dd>- 좋아요 / 최근 본 상품 확인</dd>
+  <dd>- UI 수정</dd>
+  <dd>- PWA</dd>
+  <dt>
+    <h3>배운점</h3>
+  </dt>
+  <dd>
+    서버가 필요했지만 직접 만들기에는 배우는 시간과 만드는 시간이
+    너무 많이 소요 될 것 같아서 firebase를 통해 데이터를 읽고 쓰고
+    수정하고 삭제하는 CRUD를 연습했습니다.
+  </dd>
+  <dd>
+    firebase에서 제공하는 에러 메세지를 통해 스트링함수로
+    회원가입시 유효한 이메일인지, 최소 비밀번호인지, 동일이메일은
+    없는지등 확인할 수 있는 기능을 추가했습니다.
+  </dd>
+  <dd>실시간 채팅하는 기능을 배웠습니다.</dd>
+  <dd>
+    리액트로 유지보수가 효율적인 싱글페이지 어플리케이션 만들기를
+    배웠습니다.
+  </dd>
+  <dd>state로 데이터 관리하는 방법을 배웠습니다.</dd>
+  <dd>
+    app컴포넌트에 중요 데이터들을 모아 놓고 props로
+    부모컴포넌트에서 자식컴포넌트로 데이터바인딩을 배웠습니다.
+  </dd>
+  <dd>contextAPI와 Redux 사용법을 배웠습니다.</dd>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# oimarket-hook
+</dl>

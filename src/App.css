@@ -188,7 +188,7 @@ nav {
 }
 
 .footer-menu li {
-  font-size: var(--font-iconL);
+  font-size: var(--font-iconM);
   color: var(--font-green-color);
   cursor: pointer;
   transition: color 200ms ease-in;

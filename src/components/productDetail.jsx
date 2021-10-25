@@ -32,7 +32,14 @@ function ProductDetail(props) {
             수정
           </button>
 
-          <button className="delete">삭제</button>
+          <button
+            className="delete"
+            onClick={() => {
+              props.deleteProduct();
+            }}
+          >
+            삭제
+          </button>
         </div>
         <strong className="price">{product.price}</strong>
         <div className="product-detail-info">

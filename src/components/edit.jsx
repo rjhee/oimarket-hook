@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function Edit(props) {
   let { id } = useParams();
   const product = props.products.find((product) => product.id === id);
-
-  
 
   return (
     <form className="upload-form" onSubmit={props.onSubmitEdit}>

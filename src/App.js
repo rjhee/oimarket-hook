@@ -7,7 +7,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import { firestore, storage, firebaseAppAuth } from './fireBase';
+import { firestore, storage, firebaseAppAuth, database } from './fireBase';
 
 import Navbar from './components/navbar';
 import FooterMenu from './components/footerMenu';
@@ -25,6 +25,32 @@ const App = () => {
   let { id } = useParams();
   const [products, setProducts] = useState([]);
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [user, setUser] = useState({ name: '', email: '', uid: '' });
+  const [isUser, setIsUser] = useState(false);
+
+  const [editProduct, setEditProduct] = useState({
+    id: '',
+    uid: '',
+    img: '',
+    time: '',
+    title: '',
+    price: '',
+    desc: '',
+  });
+
+  let uploadid,
+    uploaduid,
+    uploaduser,
+    uploadtitle,
+    uploadprice,
+    uploaddesc,
+    uploadimg,
+    uploadtime;
+
   const getData = async () => {
     const db = await firestore
       .collection('product')
@@ -39,10 +65,6 @@ const App = () => {
     });
   };
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const onChange = async (event) => {
     const {
       target: { name, value },
@@ -56,9 +78,6 @@ const App = () => {
       setPassword(value);
     }
   };
-
-  const [user, setUser] = useState({ name: '', email: '', uid: '' });
-  const [isUser, setIsUser] = useState(false);
 
   const onSubmitLogin = async (event) => {
     event.preventDefault();
@@ -89,15 +108,6 @@ const App = () => {
       .then(() => history.goBack());
   };
 
-  let uploadid,
-    uploaduid,
-    uploaduser,
-    uploadtitle,
-    uploadprice,
-    uploaddesc,
-    uploadimg,
-    uploadtime;
-
   const onProductChange = async (event) => {
     const {
       target: { name, value },
@@ -120,9 +130,22 @@ const App = () => {
     const storageRef = storage.ref();
     const imgSavePath = storageRef.child(`image/${files[0].name}`);
     const uploadImg = imgSavePath.put(files[0]);
-    // _delegate._location.path_);
-    uploadImg.snapshot.ref.getDownloadURL().then((url) => (uploadimg = url));
-    console.log(uploadimg);
+
+    uploadImg.on(
+      'state_changed',
+      // 변화시 동작하는 함수
+      null,
+      // 에러시 동작하는 함수
+      (error) => {
+        console.log('실패사유는', error);
+      },
+      // 성공시 동작하는 함수
+      () => {
+        uploadImg.snapshot.ref
+          .getDownloadURL()
+          .then((url) => (uploadimg = url));
+      }
+    );
   };
 
   const [modal, setModal] = useState(false);
@@ -166,11 +189,6 @@ const App = () => {
       .then(() => history.push('/'));
   };
 
-  const [editProduct, setEditProduct] = useState({
-    title: '',
-    price: '',
-    desc: '',
-  });
   const getProductDetail = async (event) => {
     const product = products.find(
       (product) => product.id === history.location.pathname.substr(6)
@@ -210,27 +228,43 @@ const App = () => {
       (product) => product.id === history.location.pathname.substr(6)
     );
 
-    //     var updates = {};
-    // updates['/users/123952306/nickname'] = 'gildong.hong';
-    // updates['/users/123952306/hobbies'] = {
-    //   "0": "자전거"
-    // };
     console.log(product.id);
-    // firestore
-    //   .collection('product')
-    //   .doc(product.id)
-    //   .get()
-    //   .then((snap) => {
-    //     console.log(snap.data());
-    //   });
-    // .update({
+    // setEditProduct({
+    //   id: editProduct.id,
+    //   uid: editProduct.uid,
+    //   // img: editProduct.img,
+    //   // time: editProduct.time,
     //   title: editProduct.title,
     //   price: editProduct.price,
     //   desc: editProduct.desc,
     // });
-    // .then((result) => {
-    //   console.log(result.data());
-    // });
+    // var newProductKey = database.ref().child('product').push().key;
+
+    // var updates = {};
+    // updates['/product/' + newProductKey] = editProduct;
+    // updates['/product/' + product.uid + '/' + newProductKey] = editProduct;
+
+    // console.log(updates);
+    // await database.ref(`product/${newProductKey}`).update(updates);
+    // firestore.collection('product').doc().update(editProduct);
+
+    console.log(editProduct);
+
+    // firestore
+    //   .collection('product')
+    //   .doc(product.id)
+    //   .update(editData)
+    //   .then((result) => {
+    //     console.log(result);
+    //   });
+  };
+
+  const deleteProduct = async () => {
+    const product = products.find((product) => {
+      return product.id === history.location.pathname.substr(15);
+    });
+
+    firestore.collection('product').doc(product.id).delete();
   };
 
   const createChat = async () => {
@@ -273,6 +307,7 @@ const App = () => {
             products={products}
             getProductDetail={getProductDetail}
             createChat={createChat}
+            deleteProduct={deleteProduct}
           ></ProductDetail>
         </Route>
         <Route path="/edit/:id" component={Edit}>

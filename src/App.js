@@ -7,7 +7,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import { firestore, storage, firebaseAppAuth, database } from './fireBase';
+import { firestore, storage, firebaseAppAuth } from './fireBase';
 
 import Navbar from './components/navbar';
 import FooterMenu from './components/footerMenu';
@@ -18,6 +18,7 @@ import ProductList from './components/productList';
 import UserProfile from './components/userProfile';
 import UploadForm from './components/uploadForm';
 import Edit from './components/edit';
+import ChatList from './components/chatList';
 import Chat from './components/chat';
 
 const App = () => {
@@ -56,6 +57,7 @@ const App = () => {
       .collection('product')
       .orderBy('time', 'asc')
       .get();
+
     db.forEach((product) => {
       const productObject = {
         ...product.data(),
@@ -189,10 +191,14 @@ const App = () => {
       .then(() => history.push('/'));
   };
 
-  const getProductDetail = async (event) => {
-    const product = products.find(
-      (product) => product.id === history.location.pathname.substr(6)
-    );
+  const product = products.find((product) => {
+    return product.id === history.location.pathname.substr(15);
+  });
+
+  const getProductDetail = async () => {
+    // const product = products.find(
+    //   (product) => product.id === history.location.pathname.substr(6)
+    // );
 
     setEditProduct({
       title: product.title,
@@ -224,9 +230,9 @@ const App = () => {
 
   const onSubmitEdit = async (event) => {
     event.preventDefault();
-    const product = products.find(
-      (product) => product.id === history.location.pathname.substr(6)
-    );
+    // const product = products.find(
+    //   (product) => product.id === history.location.pathname.substr(6)
+    // );
 
     console.log(product.id);
     // setEditProduct({
@@ -260,21 +266,17 @@ const App = () => {
   };
 
   const deleteProduct = async () => {
-    const product = products.find((product) => {
-      return product.id === history.location.pathname.substr(15);
-    });
-
     firestore.collection('product').doc(product.id).delete();
   };
 
-  const createChat = async () => {
+  const createChat = () => {
     const chatData = {
-      from: user.uid,
-      to: uploaduid,
-      product: uploadtitle,
+      who: [user.uid, product.uid],
+      product: product.title,
       date: new Date(),
     };
 
+    console.log(chatData);
     firestore
       .collection('chatroom')
       .add(chatData)
@@ -326,6 +328,12 @@ const App = () => {
             onFileChange={onFileChange}
           ></UploadForm>
         </Route>
+        <Route path="/chatList" component={ChatList}>
+          <ChatList></ChatList>
+        </Route>
+        <Route path="/chat" component={Chat}>
+          <Chat></Chat>
+        </Route>
         <Route path="/join" component={Join}>
           <Join
             name={name}
@@ -341,9 +349,6 @@ const App = () => {
             onChange={onChange}
             onSubmitLogin={onSubmitLogin}
           ></Login>
-        </Route>
-        <Route path="/chat" component={Chat}>
-          <Chat></Chat>
         </Route>
       </Switch>
       <FooterMenu></FooterMenu>

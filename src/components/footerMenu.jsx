@@ -21,7 +21,7 @@ function FooterMenu() {
           </Link>
         </li>
         <li>
-          <Link to="/chat">
+          <Link to="/chatList">
             <i className="icon-chat2"></i>
           </Link>
         </li>

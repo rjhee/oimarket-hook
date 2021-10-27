@@ -19,7 +19,7 @@ import UserProfile from './components/userProfile';
 import UploadForm from './components/uploadForm';
 import Edit from './components/edit';
 import ChatList from './components/chatList';
-import Chat from './components/chat';
+import ChatRoom from './components/chatroom';
 
 const App = () => {
   let history = useHistory();
@@ -42,6 +42,8 @@ const App = () => {
     price: '',
     desc: '',
   });
+
+  const [chatList, setChatList] = useState([]);
 
   let uploadid,
     uploaduid,
@@ -270,13 +272,22 @@ const App = () => {
   };
 
   const createChat = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    let time = [year, month, day, hours, minutes];
     const chatData = {
+      name: [user.name, product.user],
       who: [user.uid, product.uid],
       product: product.title,
-      date: new Date(),
+      time: time,
+      img: product.img,
     };
 
-    console.log(chatData);
     firestore
       .collection('chatroom')
       .add(chatData)
@@ -285,9 +296,26 @@ const App = () => {
       });
   };
 
+  const getChatList = async () => {
+    const db = await firestore
+      .collection('chatroom')
+      .where('who', 'array-contains', user.uid)
+      .get();
+
+    db.forEach((doc) => {
+      const chatListObject = {
+        ...doc.data(),
+        id: doc.id,
+      };
+      setChatList((prev) => [chatListObject, ...prev]);
+    });
+    console.log(chatList);
+  };
+
   useEffect(() => {
     getData();
-  }, []);
+    getChatList();
+  }, [user]);
 
   return (
     <div className="App">
@@ -329,10 +357,10 @@ const App = () => {
           ></UploadForm>
         </Route>
         <Route path="/chatList" component={ChatList}>
-          <ChatList></ChatList>
+          <ChatList chatList={chatList} getChatList={getChatList}></ChatList>
         </Route>
-        <Route path="/chat" component={Chat}>
-          <Chat></Chat>
+        <Route path="/chatRoom" component={ChatRoom}>
+          <ChatRoom></ChatRoom>
         </Route>
         <Route path="/join" component={Join}>
           <Join

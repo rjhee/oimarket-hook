@@ -352,27 +352,28 @@ const App = () => {
   };
 
   const getChatMessages = async () => {
+    setChatMessages([]);
     const chatId = history.location.pathname.substr(10);
-    const db = await firestore
+    firestore
       .collection('chatroom')
       .doc(chatId)
       .collection('messages')
       .orderBy('time', 'desc')
-      .get();
+      .onSnapshot((db) => {
+        db.forEach((doc) => {
+          let chatMessagesObject = {
+            ...doc.data(),
+            id: doc.id,
+          };
 
-    db.forEach((doc) => {
-      let chatMessagesObject = {
-        ...doc.data(),
-        id: doc.id,
-      };
-
-      const messageId = chatMessages.find((message) => {
-        return chatMessagesObject.id === message.id;
+          const messageId = chatMessages.find((message) => {
+            return chatMessagesObject.id === message.id;
+          });
+          if (!messageId) {
+            setChatMessages((prev) => [chatMessagesObject, ...prev]);
+          }
+        });
       });
-      if (!messageId) {
-        setChatMessages((prev) => [chatMessagesObject, ...prev]);
-      }
-    });
   };
 
   useEffect(() => {

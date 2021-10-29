@@ -734,7 +734,7 @@ footer .footer-upload {
 
 /* chat */
 .chat-list-box {
-  padding: 1rem;
+  margin: 1rem 1rem 5rem 1rem;
 }
 
 .chat-list {

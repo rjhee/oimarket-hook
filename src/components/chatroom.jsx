@@ -1,26 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 function ChatRoom(props) {
+  let { id } = useParams();
+  const chatData = props.chatList.find((chat) => chat.id === id);
+
   const opponentImg = {
-    backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/oimarket-f7461.appspot.com/o/image%2Fprofile.png?alt=media&token=c1dc639a-5160-4665-90d6-509c7f809411)`,
+    backgroundImage: `url(${chatData && chatData.img})`,
   };
+  let chatMessages = props.chatMessages;
+  const [init, setInit] = useState(true);
+  console.log(chatMessages);
+
+  useEffect(() => {
+    return () => {
+      setInit(false);
+      console.log(init);
+    };
+  }, []);
+  console.log(init);
+
   return (
     <section className="chatting-room">
-      <ul className="chatting">
-        <li className="chat-box mine">
-          <span className="chat-box-time">2시40분</span>
-          <span className="chat-box-text">안녕하세요</span>
-        </li>
-        <li className="chat-box opponent">
-          <span className="chat-box-time">2시41분</span>
-          <span className="chat-box-text">네 안녕하세요</span>
-          <div className="chat-box-userimg" style={opponentImg}></div>
-        </li>
-      </ul>
-      <form className="chatting-form">
+      {init === true ? (
+        <ul className="chatting">
+          {chatMessages.map((chat) => (
+            <li
+              className={
+                'chat-box' +
+                (chat.uid === props.user.uid ? ' mine' : ' opponent')
+              }
+              key={chat.id}
+            >
+              <span className="chat-box-time">{chat.time}</span>
+              <span className="chat-box-text">{chat.content}</span>
+            </li>
+          ))}
+
+          <li className="chat-box opponent">
+            <span className="chat-box-time">2시41분</span>
+            <span className="chat-box-text">네 안녕하세요</span>
+            <div className="chat-box-userimg" style={opponentImg}></div>
+          </li>
+        </ul>
+      ) : null}
+      <form className="chatting-form" onSubmit={props.createChatMessages}>
         <input
           type="text"
           name="chat-form-text"
+          onChange={props.onMessageChange}
+          autoFocus
           placeholder="메세지를 입력하세요"
         />
         <button>

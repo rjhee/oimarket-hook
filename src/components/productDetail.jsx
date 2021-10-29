@@ -14,6 +14,7 @@ function ProductDetail(props) {
   let uploadDate = `${month + 1}월${day}일 ${hours}시${minutes}분`;
   const productImg = { backgroundImage: `url(${product.img})` };
 
+  console.log(id);
   return (
     <section className="product-detail">
       <div className="img-cover">

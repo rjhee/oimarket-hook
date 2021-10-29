@@ -1,8 +1,9 @@
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 const Chat = (props) => {
   let history = useHistory();
+  let { id } = useParams();
 
   const month = props.chat.time[1];
   const day = props.chat.time[2];
@@ -14,11 +15,13 @@ const Chat = (props) => {
   const productImg = {
     backgroundImage: `url(${props.chat.img})`,
   };
+
   return (
     <li
       className="chat-list"
       onClick={() => {
-        history.push('./chatroom');
+        history.push('./chatroom/' + props.chat.id);
+        props.getChatMessages();
       }}
     >
       <div className="chat-list-opponent-img"></div>

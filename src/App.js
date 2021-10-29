@@ -20,6 +20,7 @@ import UploadForm from './components/uploadForm';
 import Edit from './components/edit';
 import ChatList from './components/chatList';
 import ChatRoom from './components/chatroom';
+import Chat from './components/chat';
 
 const App = () => {
   let history = useHistory();
@@ -44,6 +45,7 @@ const App = () => {
   });
 
   const [chatList, setChatList] = useState([]);
+  const [chatMessages, setChatMessages] = useState([]);
 
   let uploadid,
     uploaduid,
@@ -312,6 +314,67 @@ const App = () => {
     console.log(chatList);
   };
 
+  const chat = chatList.find((chat) => {
+    return chat.id === history.location.pathname.substr(10);
+  });
+
+  let messageContent, messageTime;
+  const onMessageChange = async (event) => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    let message = event.target.value;
+    messageContent = message;
+    messageTime = [year, month, day, hours, minutes];
+  };
+
+  const createChatMessages = async (event) => {
+    event.preventDefault();
+    const messageDataObject = {
+      content: messageContent,
+      time: messageTime,
+      uid: user.uid,
+      name: user.name,
+    };
+
+    firestore
+      .collection('chatroom')
+      .doc(chat.id)
+      .collection('messages')
+      .add(messageDataObject)
+      .then((result) => {
+        console.log(result);
+      });
+  };
+
+  const getChatMessages = async () => {
+    const chatId = history.location.pathname.substr(10);
+    const db = await firestore
+      .collection('chatroom')
+      .doc(chatId)
+      .collection('messages')
+      .orderBy('time', 'desc')
+      .get();
+
+    db.forEach((doc) => {
+      let chatMessagesObject = {
+        ...doc.data(),
+        id: doc.id,
+      };
+
+      const messageId = chatMessages.find((message) => {
+        return chatMessagesObject.id === message.id;
+      });
+      if (!messageId) {
+        setChatMessages((prev) => [chatMessagesObject, ...prev]);
+      }
+    });
+  };
+
   useEffect(() => {
     getData();
     getChatList();
@@ -357,10 +420,22 @@ const App = () => {
           ></UploadForm>
         </Route>
         <Route path="/chatList" component={ChatList}>
-          <ChatList chatList={chatList} getChatList={getChatList}></ChatList>
+          <ChatList
+            chatList={chatList}
+            getChatList={getChatList}
+            getChatMessages={getChatMessages}
+          ></ChatList>
         </Route>
-        <Route path="/chatRoom" component={ChatRoom}>
-          <ChatRoom></ChatRoom>
+
+        <Route path="/chatroom/:id" component={ChatRoom}>
+          <ChatRoom
+            user={user}
+            chatList={chatList}
+            chatMessages={chatMessages}
+            createChatMessages={createChatMessages}
+            onMessageChange={onMessageChange}
+            getChatMessages={getChatMessages}
+          ></ChatRoom>
         </Route>
         <Route path="/join" component={Join}>
           <Join

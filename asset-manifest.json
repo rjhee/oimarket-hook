@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/oimarket-hook/static/css/main.dd70071b.chunk.css",
-    "main.js": "/oimarket-hook/static/js/main.d2029973.chunk.js",
-    "main.js.map": "/oimarket-hook/static/js/main.d2029973.chunk.js.map",
+    "main.js": "/oimarket-hook/static/js/main.7db5bc79.chunk.js",
+    "main.js.map": "/oimarket-hook/static/js/main.7db5bc79.chunk.js.map",
     "runtime-main.js": "/oimarket-hook/static/js/runtime-main.3d81201f.js",
     "runtime-main.js.map": "/oimarket-hook/static/js/runtime-main.3d81201f.js.map",
-    "static/js/2.9dca26b0.chunk.js": "/oimarket-hook/static/js/2.9dca26b0.chunk.js",
-    "static/js/2.9dca26b0.chunk.js.map": "/oimarket-hook/static/js/2.9dca26b0.chunk.js.map",
+    "static/js/2.68d7e86d.chunk.js": "/oimarket-hook/static/js/2.68d7e86d.chunk.js",
+    "static/js/2.68d7e86d.chunk.js.map": "/oimarket-hook/static/js/2.68d7e86d.chunk.js.map",
     "index.html": "/oimarket-hook/index.html",
     "static/css/main.dd70071b.chunk.css.map": "/oimarket-hook/static/css/main.dd70071b.chunk.css.map",
-    "static/js/2.9dca26b0.chunk.js.LICENSE.txt": "/oimarket-hook/static/js/2.9dca26b0.chunk.js.LICENSE.txt",
+    "static/js/2.68d7e86d.chunk.js.LICENSE.txt": "/oimarket-hook/static/js/2.68d7e86d.chunk.js.LICENSE.txt",
     "static/media/icon.css": "/oimarket-hook/static/media/oimaket.b88eb365.eot"
   },
   "entrypoints": [
     "static/js/runtime-main.3d81201f.js",
-    "static/js/2.9dca26b0.chunk.js",
+    "static/js/2.68d7e86d.chunk.js",
     "static/css/main.dd70071b.chunk.css",
-    "static/js/main.d2029973.chunk.js"
+    "static/js/main.7db5bc79.chunk.js"
   ]
 }

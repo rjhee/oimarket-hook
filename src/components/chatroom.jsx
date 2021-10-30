@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 function ChatRoom(props) {
@@ -8,20 +8,20 @@ function ChatRoom(props) {
   const opponentImg = {
     backgroundImage: `url(${chatData && chatData.img})`,
   };
-  let chatMessages = props.chatMessages;
-  console.log(chatMessages);
+  let chatMessage = props.chatMessages;
+  console.log(chatMessage);
   let zero;
   let PMAM;
 
   const lastLi = document.querySelector('.chatting li:last-child');
 
   useEffect(() => {
-    lastLi.scrollIntoView({ block: 'start' });
-  }, [chatMessages]);
+    lastLi && lastLi.scrollIntoView({ block: 'start' });
+  }, [lastLi]);
   return (
     <section className="chatting-room">
       <ul className="chatting">
-        {chatMessages.map((chat) => (
+        {chatMessage.map((chat) => (
           <li
             className={
               'chat-box' + (chat.uid === props.user.uid ? ' mine' : ' opponent')
@@ -38,12 +38,6 @@ function ChatRoom(props) {
             <span className="chat-box-text">{chat.content}</span>
           </li>
         ))}
-
-        <li className="chat-box opponent">
-          <span className="chat-box-time">2시41분</span>
-          <span className="chat-box-text">네 안녕하세요</span>
-          <div className="chat-box-userimg" style={opponentImg}></div>
-        </li>
       </ul>
 
       <form className="chatting-form" onSubmit={props.createChatMessages}>
@@ -54,7 +48,11 @@ function ChatRoom(props) {
           autoFocus
           placeholder="메세지를 입력하세요"
         />
-        <button>
+        <button
+          onClick={() => {
+            props.getChatMessages(10);
+          }}
+        >
           <i className="icon-send"></i>
         </button>
       </form>

@@ -73,9 +73,11 @@ function ProductDetail(props) {
           <button
             className="chat-btn"
             onClick={() => {
-              // history.push('./chatroom/' + props.chat.id);
-              props.createChat();
-              console.log(props.chatList);
+              const chatRoomId = props.createChat();
+              chatRoomId.then((id) => {
+                history.push('/chatroom/' + id);
+                props.getChatMessages(14);
+              });
             }}
           >
             채팅하기

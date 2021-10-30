@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function FooterMenu() {
+function FooterMenu(props) {
   return (
     <footer>
       <ul className="footer-menu">
@@ -20,11 +20,15 @@ function FooterMenu() {
             <i className="icon-plus"></i>
           </Link>
         </li>
-        <li>
-          <Link to="/chatList">
+        <Link to="/chatList">
+          <li
+            onClick={() => {
+              props.getChatList();
+            }}
+          >
             <i className="icon-chat2"></i>
-          </Link>
-        </li>
+          </li>
+        </Link>
         <li>
           <Link as={Link} to="/userProfile">
             <i className="icon-user"></i>

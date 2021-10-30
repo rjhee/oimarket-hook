@@ -47,6 +47,7 @@ const App = () => {
 
   const [chatList, setChatList] = useState([]);
   const [chatMessages, setChatMessages] = useState([]);
+  const [chatRoom, setChatRoom] = useState('');
 
   let uploadid,
     uploaduid,
@@ -274,7 +275,7 @@ const App = () => {
     firestore.collection('product').doc(product.id).delete();
   };
 
-  const createChat = () => {
+  const createChat = async () => {
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -288,31 +289,38 @@ const App = () => {
       who: [user.uid, product.uid],
       product: product.title,
       time: time,
+      order: date,
       img: product.img,
     };
 
-    firestore
+    const chatRoomId = firestore
       .collection('chatroom')
       .add(chatData)
       .then((result) => {
+        setChatRoom({ id: result.id });
         console.log(result);
+        return result.id;
       });
+
+    return chatRoomId;
   };
 
   const getChatList = async () => {
-    const db = await firestore
+    firestore
       .collection('chatroom')
       .where('who', 'array-contains', user.uid)
-      .get();
-
-    db.forEach((doc) => {
-      const chatListObject = {
-        ...doc.data(),
-        id: doc.id,
-      };
-      setChatList((prev) => [chatListObject, ...prev]);
-    });
-    console.log(chatList);
+      .orderBy('order', 'asc')
+      .onSnapshot((db) => {
+        setChatList([]);
+        db.forEach((doc) => {
+          const chatListObject = {
+            ...doc.data(),
+            id: doc.id,
+          };
+          setChatList((prev) => [chatListObject, ...prev]);
+        });
+        console.log(chatList);
+      });
   };
 
   const chat = chatList.find((chat) => {
@@ -351,7 +359,7 @@ const App = () => {
 
     firestore
       .collection('chatroom')
-      .doc(chat.id)
+      .doc(chatRoom.id)
       .collection('messages')
       .add(messageDataObject)
       .then((result) => {
@@ -359,8 +367,8 @@ const App = () => {
       });
   };
 
-  const getChatMessages = async () => {
-    const chatId = history.location.pathname.substr(10);
+  const getChatMessages = async (idLocation) => {
+    const chatId = history.location.pathname.substr(idLocation);
     firestore
       .collection('chatroom')
       .doc(chatId)
@@ -387,8 +395,7 @@ const App = () => {
 
   useEffect(() => {
     getData();
-    getChatList();
-  }, [user]);
+  }, []);
 
   return (
     <div className="App">
@@ -407,11 +414,14 @@ const App = () => {
         </Route>
         <Route path="/productDetail/:id" component={ProductDetail}>
           <ProductDetail
+            chatMessages={chatMessages}
             chatList={chatList}
             products={products}
             getProductDetail={getProductDetail}
             createChat={createChat}
             deleteProduct={deleteProduct}
+            getChatList={getChatList}
+            getChatMessages={getChatMessages}
           ></ProductDetail>
         </Route>
         <Route path="/edit/:id" component={Edit}>
@@ -465,7 +475,7 @@ const App = () => {
           ></Login>
         </Route>
       </Switch>
-      <FooterMenu></FooterMenu>
+      <FooterMenu getChatList={getChatList}></FooterMenu>
     </div>
   );
 };

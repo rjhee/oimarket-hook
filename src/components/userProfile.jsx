@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 function UserProfile(props) {
@@ -11,6 +11,9 @@ function UserProfile(props) {
   const NO_EMAIL = '로그인이 필요합니다';
   const ISUSER_TEXT = isUser === true ? '로그아웃' : '로그인';
   const ISUSER_PATH = isUser === true ? '/logout' : '/login';
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
   return (
     <div className="user">
       <section className="user-profile">

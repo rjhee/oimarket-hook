@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import {
   useHistory,
   useParams,
@@ -328,12 +329,19 @@ const App = () => {
     const minutes = date.getMinutes();
 
     let message = event.target.value;
-    messageContent = message;
+    if (message === '') {
+      return;
+    } else {
+      messageContent = message;
+    }
     messageTime = [year, month, day, hours, minutes];
   };
 
   const createChatMessages = async (event) => {
     event.preventDefault();
+    event.target.firstChild.value = '';
+    event.target.firstChild.focus();
+
     const messageDataObject = {
       content: messageContent,
       time: messageTime,
@@ -352,7 +360,6 @@ const App = () => {
   };
 
   const getChatMessages = async () => {
-    setChatMessages([]);
     const chatId = history.location.pathname.substr(10);
     firestore
       .collection('chatroom')
@@ -360,18 +367,20 @@ const App = () => {
       .collection('messages')
       .orderBy('time', 'desc')
       .onSnapshot((db) => {
+        setChatMessages([]);
         db.forEach((doc) => {
           let chatMessagesObject = {
             ...doc.data(),
             id: doc.id,
           };
 
-          const messageId = chatMessages.find((message) => {
-            return chatMessagesObject.id === message.id;
-          });
-          if (!messageId) {
-            setChatMessages((prev) => [chatMessagesObject, ...prev]);
-          }
+          // const messageId = chatMessages.find((message) => {
+          //   return chatMessagesObject.id === message.id;
+          // });
+          // console.log(messageId);
+          // if (!messageId) {
+          setChatMessages((prev) => [chatMessagesObject, ...prev]);
+          // }
         });
       });
   };
@@ -398,6 +407,7 @@ const App = () => {
         </Route>
         <Route path="/productDetail/:id" component={ProductDetail}>
           <ProductDetail
+            chatList={chatList}
             products={products}
             getProductDetail={getProductDetail}
             createChat={createChat}

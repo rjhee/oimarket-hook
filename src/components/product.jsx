@@ -5,7 +5,7 @@ function Product(props) {
   let history = useHistory();
   const productImg = { backgroundImage: `url(${props.product.img})` };
 
-  // const year = props.product.time[0];
+  const year = props.product.time[0];
   const month = props.product.time[1];
   const day = props.product.time[2];
   const hours = props.product.time[3];

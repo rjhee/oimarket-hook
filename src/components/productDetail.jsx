@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 function ProductDetail(props) {
@@ -14,7 +14,9 @@ function ProductDetail(props) {
   let uploadDate = `${month + 1}월${day}일 ${hours}시${minutes}분`;
   const productImg = { backgroundImage: `url(${product.img})` };
 
-  console.log(id);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
   return (
     <section className="product-detail">
       <div className="img-cover">
@@ -71,8 +73,9 @@ function ProductDetail(props) {
           <button
             className="chat-btn"
             onClick={() => {
-              history.push('/chat');
+              // history.push('./chatroom/' + props.chat.id);
               props.createChat();
+              console.log(props.chatList);
             }}
           >
             채팅하기

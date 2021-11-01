@@ -22,6 +22,7 @@ import Edit from './components/edit';
 import ChatList from './components/chatList';
 import ChatRoom from './components/chatroom';
 import Chat from './components/chat';
+import { useStore } from 'react-redux';
 
 const App = () => {
   let history = useHistory();
@@ -48,6 +49,7 @@ const App = () => {
   const [chatList, setChatList] = useState([]);
   const [chatMessages, setChatMessages] = useState([]);
   const [chatRoom, setChatRoom] = useState('');
+  const [footerOn, setFooterOn] = useState(false);
 
   let uploadid,
     uploaduid,
@@ -327,7 +329,7 @@ const App = () => {
     return chat.id === history.location.pathname.substr(10);
   });
 
-  let messageContent, messageTime;
+  let messageContent, messageTime, createdDate;
   const onMessageChange = async (event) => {
     const date = new Date();
     const year = date.getFullYear();
@@ -342,6 +344,7 @@ const App = () => {
     } else {
       messageContent = message;
     }
+    createdDate = date;
     messageTime = [year, month, day, hours, minutes];
   };
 
@@ -353,6 +356,7 @@ const App = () => {
     const messageDataObject = {
       content: messageContent,
       time: messageTime,
+      createdDate: createdDate,
       uid: user.uid,
       name: user.name,
     };
@@ -369,11 +373,12 @@ const App = () => {
 
   const getChatMessages = async (idLocation) => {
     const chatId = history.location.pathname.substr(idLocation);
+    console.log(chatId);
     firestore
       .collection('chatroom')
       .doc(chatId)
       .collection('messages')
-      .orderBy('time', 'desc')
+      .orderBy('createdDate', 'desc')
       .onSnapshot((db) => {
         setChatMessages([]);
         db.forEach((doc) => {

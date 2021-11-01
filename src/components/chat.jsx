@@ -21,7 +21,7 @@ const Chat = (props) => {
       className="chat-list"
       onClick={() => {
         history.push('/chatroom/' + props.chat.id);
-        // props.getChatMessages(10);
+        props.getChatMessages(10);
       }}
     >
       <div className="chat-list-opponent-img"></div>

@@ -31,11 +31,24 @@ function ChatRoom(props) {
             <span className="chat-box-time">
               {
                 (chat.time[3] < 12 ? (PMAM = '오전') : (PMAM = '오후'),
-                chat.time[4] < 10 ? (zero = '0') : (zero = 0),
-                PMAM + ' ' + chat.time[3] + ':' + zero + chat.time[4])
+                chat.time[4] < 10 ? (zero = '0') : (zero = ''),
+                PMAM +
+                  ' ' +
+                  (chat.time[3] > 12 ? chat.time[3] - 12 : chat.time[3]) +
+                  ':' +
+                  zero +
+                  chat.time[4])
               }
             </span>
-            <span className="chat-box-text">{chat.content}</span>
+            <div className="chat-box-cover">
+              {chat.uid === props.user.uid ? null : (
+                <span className="chat-box-name">{chat.name}</span>
+              )}
+              <span className="chat-box-text">{chat.content}</span>
+            </div>
+            {chat.uid === props.user.uid ? null : (
+              <span className="chat-box-userimg" style={opponentImg}></span>
+            )}
           </li>
         ))}
       </ul>
@@ -48,11 +61,7 @@ function ChatRoom(props) {
           autoFocus
           placeholder="메세지를 입력하세요"
         />
-        <button
-          onClick={() => {
-            props.getChatMessages(10);
-          }}
-        >
+        <button>
           <i className="icon-send"></i>
         </button>
       </form>

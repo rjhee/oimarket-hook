@@ -76,7 +76,7 @@ function ProductDetail(props) {
               const chatRoomId = props.createChat();
               chatRoomId.then((id) => {
                 history.push('/chatroom/' + id);
-                props.getChatMessages(14);
+                props.getChatMessages(10);
               });
             }}
           >

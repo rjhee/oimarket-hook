@@ -197,7 +197,7 @@ const App = () => {
           setModal(false);
         }, 1000)
       )
-      .then(() => history.push('/'));
+      .then(() => window.location.replace('/'));
   };
 
   const product = products.find((product) => {

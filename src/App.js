@@ -141,7 +141,7 @@ const App = () => {
     const imgSavePath = storageRef.child(`image/${files[0].name}`);
     const uploadImg = imgSavePath.put(files[0]);
 
-    uploadImg.on(
+    await uploadImg.on(
       'state_changed',
       // 변화시 동작하는 함수
       null,
@@ -156,6 +156,7 @@ const App = () => {
           .then((url) => (uploadimg = url));
       }
     );
+    console.log(uploadImg);
   };
 
   const [modal, setModal] = useState(false);
@@ -406,10 +407,10 @@ const App = () => {
     <div className="App">
       <Navbar></Navbar>
       {modal === true ? <Modal></Modal> : null}
+      <Route exact path="/" component={ProductList}>
+        <ProductList products={products}></ProductList>
+      </Route>
       <Switch>
-        <Route exact path="/" component={ProductList}>
-          <ProductList products={products}></ProductList>
-        </Route>
         <Route path="/userProfile" component={UserProfile}>
           <UserProfile
             user={user}
@@ -438,7 +439,7 @@ const App = () => {
             getProductDetail={getProductDetail}
           ></Edit>
         </Route>
-        <Route path="/uploadForm" component={UploadForm}>
+        <Route path="/uploadForm">
           <UploadForm
             onProductChange={onProductChange}
             onSubmitUploadForm={onSubmitUploadForm}

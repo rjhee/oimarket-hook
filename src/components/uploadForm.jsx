@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router';
 
 function UploadForm(props) {
+  let history = useHistory();
   useEffect(() => {
     window.scrollTo(0, 0);
   });
@@ -38,7 +40,15 @@ function UploadForm(props) {
         onChange={props.onFileChange}
       />
       <div className="btn-group">
-        <button className="close-btn">뒤로가기</button>
+        <button
+          className="close-btn"
+          type="button"
+          onClick={() => {
+            history.goBack();
+          }}
+        >
+          뒤로가기
+        </button>
         <button type="submit" className="upload-btn">
           글 올리기
         </button>

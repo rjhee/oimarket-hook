@@ -44,7 +44,9 @@ function ProductDetail(props) {
             삭제
           </button>
         </div>
-        <strong className="price">{product.price}</strong>
+        <strong className="price">
+          {Number(product.price).toLocaleString('ko-KR') + '원'}
+        </strong>
         <div className="product-detail-info">
           <div className="user-profile">
             <div className="user-photo">

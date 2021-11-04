@@ -26,7 +26,9 @@ function Product(props) {
           <span className="upload-location">{props.product.loction}</span>
           <span className="upload-date">{uploadDate}</span>
         </div>
-        <strong className="product-price">{props.product.price}</strong>
+        <strong className="product-price">
+          {Number(props.product.price).toLocaleString('ko-KR') + '원'}
+        </strong>
         <div className="btn-group">
           <div className="like">
             <i className="far fa-heart like-btn"></i>
